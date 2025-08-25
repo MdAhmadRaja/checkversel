@@ -116,21 +116,21 @@
 
   <canvas id="particleCanvas"></canvas>
 
-  <header class="flex justify-between items-center px-4 sm:px-6 py-4 sticky top-0 z-10 shadow-md rounded-b-lg">
-    <div class="flex items-center gap-2 flex-shrink-0">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/truck.png" alt="Truck" class="h-8 w-8 glow-hover cursor-pointer"/>
-      <h1 class="text-lg sm:text-xl md:text-2xl font-bold glow-hover cursor-pointer">Kennedy</h1>
-    </div>
-    <nav class="flex items-center gap-3 sm:gap-4">
-      <a href="profile.html" class="icon-btn glow-hover">
-        <img src="https://img.icons8.com/ios-filled/24/000000/user-male-circle.png" alt="Profile" />
-      </a>
-      <a href="contact.html" class="icon-btn glow-hover">
-        <img src="https://img.icons8.com/ios-filled/24/000000/customer-support.png" alt="Support" />
-      </a>
-      <div class="help-btn" id="helpBtn">?</div>
-    </nav>
-  </header>
+<header class="flex justify-between items-center px-4 sm:px-6 py-4 fixed top-0 left-0 w-full z-50 shadow-md rounded-b-lg">
+  <div class="flex items-center gap-2 flex-shrink-0">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/truck.png" alt="Truck" class="h-8 w-8 glow-hover cursor-pointer"/>
+    <h1 class="text-lg sm:text-xl md:text-2xl font-bold glow-hover cursor-pointer">Kennedy</h1>
+  </div>
+  <nav class="flex items-center gap-3 sm:gap-4">
+    <a href="profile.html" class="icon-btn glow-hover">
+      <img src="https://img.icons8.com/ios-filled/24/000000/user-male-circle.png" alt="Profile" />
+    </a>
+    <a href="contact.html" class="icon-btn glow-hover">
+      <img src="https://img.icons8.com/ios-filled/24/000000/customer-support.png" alt="Support" />
+    </a>
+    <div class="help-btn" id="helpBtn">?</div>
+  </nav>
+</header>
 
   <div class="modal" id="helpModal">
     <div class="modal-content">
@@ -139,7 +139,7 @@
     </div>
   </div>
 
-  <main class="flex-grow flex flex-col items-center justify-start px-4 sm:px-6 py-10 relative z-10 space-y-10">
+  <main class="flex-grow flex flex-col items-center justify-start px-4 sm:px-6 py-10 relative z-10 space-y-10" style="padding-top: 80px;">
     <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center mb-6 glow-hover">Welcome, Logistics Owner!</h2>
     
     <div class="card-container">
@@ -195,4 +195,5 @@
   </script>
 </body>
 </html>
+
 
