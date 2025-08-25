@@ -6,7 +6,6 @@
   <title>Kennedy Transportation Logistics - Home</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Gradient Background Animation */
     body {
       background: linear-gradient(135deg, #1e3a8a, #0f172a, #881337);
       background-size: 400% 400%;
@@ -18,15 +17,11 @@
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-
-    /* Glassmorphism Card */
     .glass-card {
       background: rgba(31, 41, 55, 0.8);
       backdrop-filter: blur(14px);
       border: 1px solid rgba(255, 255, 255, 0.15);
     }
-
-    /* Glow Effects */
     .glow-hover:hover {
       text-shadow: 0 0 10px #facc15, 0 0 20px #38bdf8;
       transition: text-shadow 0.3s ease, transform 0.3s ease;
@@ -36,8 +31,6 @@
       box-shadow: 0 0 15px #facc15, 0 0 30px #38bdf8;
       transform: scale(1.05);
     }
-
-    /* Header Links Hover */
     .header-link {
       position: relative;
       transition: all 0.3s ease;
@@ -60,16 +53,12 @@
       color: #facc15;
       transform: scale(1.05);
     }
-
-    /* Canvas covers whole screen */
     #particleCanvas {
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
       z-index: 0;
     }
-
-    /* Floating Help Button */
     .help-btn {
       width: 45px; height: 45px;
       border-radius: 50%;
@@ -86,8 +75,6 @@
       box-shadow: 0 0 25px #facc15, 0 0 35px #38bdf8;
       border: 2px solid #facc15;
     }
-
-    /* Modal Styling */
     .modal {
       position: fixed;
       inset: 0;
@@ -122,8 +109,6 @@
       color: #ef4444;
       text-shadow: 0 0 8px #f87171;
     }
-
-    /* Main Cards Layout */
     .card-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -144,16 +129,8 @@
       transform: scale(1.05);
       box-shadow: 0 0 20px #facc15, 0 0 30px #38bdf8;
     }
-    .home-card h3 {
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-    }
-    .home-card p {
-      color: #d1d5db;
-      font-size: 0.9rem;
-      margin-bottom: 1rem;
-    }
+    .home-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .home-card p { color: #d1d5db; font-size: 0.9rem; margin-bottom: 1rem; }
     .home-card button {
       background: #facc15;
       color: #000;
@@ -168,12 +145,16 @@
       transform: scale(1.05);
     }
 
-    /* Responsive Header and Cards */
     @media (max-width: 640px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
       header nav {
         flex-direction: column;
+        width: 100%;
         gap: 0.5rem;
-        align-items: flex-start;
+        margin-top: 1rem;
       }
       .card-container {
         grid-template-columns: 1fr;
@@ -181,28 +162,24 @@
       .home-card h3 { font-size: 1.1rem; }
       .home-card p { font-size: 0.85rem; }
     }
-
   </style>
 </head>
 <body class="text-white min-h-screen font-sans flex flex-col relative">
 
-  <!-- Particle Background -->
   <canvas id="particleCanvas"></canvas>
 
-  <!-- Header -->
-  <header class="flex justify-between items-center px-4 sm:px-6 py-4 bg-gray-900 bg-opacity-70 backdrop-blur-md shadow-md sticky top-0 z-10 flex-wrap">
-    <div class="flex items-center gap-3">
+  <header class="flex justify-between items-center px-4 sm:px-6 py-4 bg-gray-900 bg-opacity-70 backdrop-blur-md shadow-md sticky top-0 z-10">
+    <div class="flex items-center gap-3 flex-shrink-0">
       <img src="https://img.icons8.com/ios-filled/50/ffffff/truck.png" alt="Truck" class="h-8 w-8 glow-hover cursor-pointer"/>
       <h1 class="text-lg sm:text-xl md:text-2xl font-bold glow-hover cursor-pointer">Kennedy Transportation Logistics</h1>
     </div>
-    <nav class="flex items-center gap-4 sm:gap-6 mt-2 sm:mt-0">
+    <nav class="flex items-center gap-4 sm:gap-6 flex-wrap">
       <a href="about.html" class="header-link text-sm sm:text-base">About</a>
       <a href="contact.html" class="header-link text-sm sm:text-base">Contact</a>
       <div class="help-btn" id="helpBtn">?</div>
     </nav>
   </header>
 
-  <!-- Modal -->
   <div class="modal" id="helpModal">
     <div class="modal-content">
       <span class="close-btn" id="closeModal">&times;</span>
@@ -214,7 +191,6 @@
     </div>
   </div>
 
-  <!-- Main Container -->
   <main class="flex-grow flex flex-col items-center justify-start px-4 sm:px-6 py-10 relative z-10 space-y-10">
     <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center mb-6 glow-hover">Welcome, Logistics Owner!</h2>
     
@@ -242,73 +218,33 @@
     </div>
   </main>
 
-  <!-- JS -->
   <script>
-    // Particle Background
     const canvas = document.getElementById("particleCanvas");
     const ctx = canvas.getContext("2d");
     let particlesArray;
-
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-
     window.addEventListener("resize", () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       init();
     });
-
     class Particle {
-      constructor(x, y, size, dx, dy) {
-        this.x = x;
-        this.y = y;
-        this.size = size;
-        this.dx = dx;
-        this.dy = dy;
-      }
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(255,255,255,0.7)";
-        ctx.fill();
-      }
-      update() {
-        this.x += this.dx;
-        this.y += this.dy;
-        if (this.x > canvas.width || this.x < 0) this.dx *= -1;
-        if (this.y > canvas.height || this.y < 0) this.dy *= -1;
-        this.draw();
-      }
+      constructor(x, y, size, dx, dy) { this.x=x; this.y=y; this.size=size; this.dx=dx; this.dy=dy; }
+      draw(){ ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fillStyle="rgba(255,255,255,0.7)"; ctx.fill(); }
+      update(){ this.x+=this.dx; this.y+=this.dy; if(this.x>canvas.width||this.x<0)this.dx*=-1; if(this.y>canvas.height||this.y<0)this.dy*=-1; this.draw(); }
     }
+    function init(){ particlesArray=[]; let n=window.innerWidth<768?50:80; for(let i=0;i<n;i++){ let s=Math.random()*3+1; let x=Math.random()*canvas.width; let y=Math.random()*canvas.height; let dx=(Math.random()-0.5)*1; let dy=(Math.random()-0.5)*1; particlesArray.push(new Particle(x,y,s,dx,dy)); } }
+    function animate(){ requestAnimationFrame(animate); ctx.clearRect(0,0,canvas.width,canvas.height); particlesArray.forEach(p=>p.update()); }
+    init(); animate();
 
-    function init() {
-      particlesArray = [];
-      let numberOfParticles = window.innerWidth < 768 ? 50 : 80; // fewer on mobile
-      for (let i = 0; i < numberOfParticles; i++) {
-        let size = Math.random() * 3 + 1;
-        let x = Math.random() * canvas.width;
-        let y = Math.random() * canvas.height;
-        let dx = (Math.random() - 0.5) * 1;
-        let dy = (Math.random() - 0.5) * 1;
-        particlesArray.push(new Particle(x, y, size, dx, dy));
-      }
-    }
-    function animate() {
-      requestAnimationFrame(animate);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      particlesArray.forEach(p => p.update());
-    }
-    init();
-    animate();
-
-    // Help Modal
     const helpBtn = document.getElementById("helpBtn");
     const helpModal = document.getElementById("helpModal");
     const closeModal = document.getElementById("closeModal");
-
     helpBtn.onclick = () => { helpModal.style.display = "flex"; };
     closeModal.onclick = () => { helpModal.style.display = "none"; };
-    window.onclick = (e) => { if (e.target === helpModal) helpModal.style.display = "none"; };
+    window.onclick = (e) => { if(e.target===helpModal) helpModal.style.display="none"; };
   </script>
 </body>
 </html>
+
