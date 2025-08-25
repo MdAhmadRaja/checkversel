@@ -1,199 +1,317 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Kennedy - Home</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      background: linear-gradient(135deg, #1e3a8a, #0f172a, #881337);
-      background-size: 400% 400%;
-      animation: floatBG 20s ease infinite;
-      overflow-x: hidden;
-    }
-    @keyframes floatBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Logistics Owner - Kennedy</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* Header Interactive BG */
-    header {
-      background: linear-gradient(135deg, #facc15, #38bdf8);
-      background-size: 200% 200%;
-      animation: headerBG 5s ease infinite;
-    }
-    @keyframes headerBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+body {
+  font-family: 'Inter', sans-serif;
+  background: #0f172a;
+  overflow-x: hidden;
+  color: #e2e8f0;
+  position: relative;
+}
 
-    .glow-hover:hover {
-      text-shadow: 0 0 10px #facc15, 0 0 20px #38bdf8;
-      transition: text-shadow 0.3s ease, transform 0.3s ease;
-      transform: scale(1.05);
-    }
-    .btn-glow:hover {
-      box-shadow: 0 0 15px #facc15, 0 0 30px #38bdf8;
-      transform: scale(1.05);
-    }
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, #1e3a8a, #0f172a);
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  transition: background 0.3s ease;
+}
 
-    #particleCanvas {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 0;
-    }
+header:hover { background: linear-gradient(90deg, #2563eb, #1e293b); }
 
-    .help-btn, .icon-btn {
-      width: 45px; height: 45px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #facc15, #38bdf8);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: bold;
-      color: black;
-      cursor: pointer;
-      border: 2px solid #ffffff55;
-      transition: transform 0.3s, box-shadow 0.3s, border 0.3s;
-    }
-    .help-btn:hover, .icon-btn:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 25px #facc15, 0 0 35px #38bdf8;
-      border: 2px solid #facc15;
-    }
+.logo { font-weight: 900; font-size: 1.5rem; color: #fff; display: flex; align-items: center; gap: 10px; }
+.logo img { height: 36px; }
 
-    .card-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 1.5rem;
-      width: 100%;
-      max-width: 1200px;
-    }
-    .home-card {
-      background: rgba(31,41,55,0.85);
-      backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.15);
-      padding: 1.5rem;
-      border-radius: 1.5rem;
-      text-align: center;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .home-card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 20px #facc15, 0 0 30px #38bdf8;
-    }
-    .home-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
-    .home-card p { color: #d1d5db; font-size: 0.9rem; margin-bottom: 1rem; }
-    .home-card button {
-      background: #facc15;
-      color: #000;
-      font-weight: 600;
-      padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
-      transition: all 0.3s;
-    }
-    .home-card button:hover {
-      background: #fbbf24;
-      box-shadow: 0 0 15px #facc15, 0 0 25px #38bdf8;
-      transform: scale(1.05);
-    }
+nav { display: flex; gap: 1.5rem; }
+nav a { color: #e0f2fe; font-size: 1.2rem; transition: transform 0.2s ease, color 0.3s ease; }
+nav a:hover { color: #facc15; transform: scale(1.2); }
 
-    /* Responsive Header */
-    @media (max-width: 640px) {
-      header {
-        flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 0.5rem;
-      }
-      header h1 { font-size: 1.2rem; }
-      header nav { flex-wrap: wrap; gap: 0.5rem; }
-    }
-  </style>
+main { padding: 2rem; display: flex; justify-content: center; position: relative; z-index: 1; }
+
+h2 { text-align: center; margin-bottom: 1rem; font-size: 1.8rem; color: #fbbf24; }
+
+.form-section {
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 2rem;
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  width: 100%;
+  max-width: 700px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.form-section:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(0,0,0,0.6); }
+
+label { margin-top: 1rem; display: block; font-weight: 500; }
+input, select { width: 100%; margin-top: 0.25rem; padding: 0.75rem; border-radius: 8px; border: none; background-color: #334155; color: #fff; font-size: 1rem; }
+input::placeholder { color: #94a3b8; }
+select { background-color: #334155; }
+
+input[type="file"] { cursor: pointer; background-color: #475569; }
+
+button {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  background: #f59e0b;
+  color: #fff;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+button:hover { background: #d97706; transform: scale(1.03); }
+
+.footer { text-align: center; padding: 1rem; font-size: 0.85rem; background-color: rgba(15, 23, 42, 0.9); color: #94a3b8; }
+
+.row { display: flex; gap: 1rem; flex-wrap: wrap; }
+.row > div { flex: 1; min-width: 150px; }
+
+#error { color: #f87171; font-size: 0.85rem; display: none; margin-top: 2px; }
+
+#totalCost { background-color: #475569; font-weight: bold; }
+#filePreview { margin-top: 0.5rem; font-size: 0.9rem; color: #facc15; }
+
+@media (max-width: 600px) {
+  .form-section { padding: 1rem; }
+  h2 { font-size: 1.4rem; }
+  .row { flex-direction: column; }
+}
+
+/* Floating stars background */
+.star { position: absolute; width: 2px; height: 2px; background: #fff; border-radius: 50%; animation: floatStars linear infinite; opacity: 0.8; }
+@keyframes floatStars { 0% {transform: translateY(0);} 100% {transform: translateY(-1000px);} }
+
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(90deg, #facc15, #a3e635); /* bright yellow → light green */
+  padding: 1rem 2rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  border-radius: 0 0 16px 16px;
+}
+
+/* Spherical icon buttons */
+.circle-icon {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: radial-gradient(circle at top left, #fcd34d, #84cc16); /* subtle 3D gradient */
+  color: #0f172a;
+  font-size: 1.2rem;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.circle-icon:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+}
+
+/* Adjust nav spacing */
+nav {
+  display: flex;
+  gap: 1rem;
+}
+</style>
 </head>
-<body class="text-white min-h-screen font-sans flex flex-col relative">
+<body>
 
-  <canvas id="particleCanvas"></canvas>
+<!-- Floating stars -->
+<script>
+for(let i=0;i<100;i++){
+  let star=document.createElement('div');
+  star.classList.add('star');
+  star.style.left=Math.random()*100+'vw';
+  star.style.top=Math.random()*100+'vh';
+  star.style.width=1+Math.random()*2+'px';
+  star.style.height=1+Math.random()*2+'px';
+  star.style.animationDuration=(5+Math.random()*10)+'s';
+  document.body.appendChild(star);
+}
+</script>
 
-<header class="flex justify-between items-center px-4 sm:px-6 py-4 fixed top-0 left-0 w-full z-50 shadow-md rounded-b-lg">
-  <div class="flex items-center gap-2 flex-shrink-0">
-    <img src="https://img.icons8.com/ios-filled/50/ffffff/truck.png" alt="Truck" class="h-8 w-8 glow-hover cursor-pointer"/>
-    <h1 class="text-lg sm:text-xl md:text-2xl font-bold glow-hover cursor-pointer">Kennedy</h1>
+<header>
+  <div class="logo">
+    <img src="img/truck.jpg" alt="Truck Icon">
+    Kennedy
   </div>
-  <nav class="flex items-center gap-3 sm:gap-4">
-    <a href="profile.html" class="icon-btn glow-hover">
-      <img src="https://img.icons8.com/ios-filled/24/000000/user-male-circle.png" alt="Profile" />
-    </a>
-    <a href="contact.html" class="icon-btn glow-hover">
-      <img src="https://img.icons8.com/ios-filled/24/000000/customer-support.png" alt="Support" />
-    </a>
-    <div class="help-btn" id="helpBtn">?</div>
+  <nav>
+     <a href="index.html" title="Home" class="circle-icon">
+    <img src="https://up.yimg.com/ib/th/id/OIP.jtogCBCArV5nEMpnW7kdbQHaHa?pid=Api&rs=1&c=1&qlt=95&w=123&h=123" alt="Home" style="width: 24px; height: 24px; border-radius: 50%;">
+  </a>
+  <a href="profile.html" title="Profile" class="circle-icon">&#128100;</a>
+
   </nav>
 </header>
 
-  <div class="modal" id="helpModal">
-    <div class="modal-content">
-      <span class="close-btn" id="closeModal">&times;</span>
-      
-    </div>
+<main>
+  <div class="form-section">
+    <h2>Add Logistics Request</h2>
+    <form id="logisticsForm">
+      <!-- Form content same as your previous code -->
+      <label for="logisticsName">Logistics Details</label>
+      <input type="text" id="logisticsName" placeholder="e.g. Cement Load from Pune" required />
+
+      <div class="row">
+        <div>
+          <label for="pickupCity">Pickup City</label>
+          <input type="text" id="pickupCity" placeholder="e.g. Pune" required />
+        </div>
+        <div>
+          <label for="pickupState">Pickup State</label>
+          <input type="text" id="pickupState" placeholder="e.g. Maharashtra" required />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="dropCity">Drop City</label>
+          <input type="text" id="dropCity" placeholder="e.g. Jamshedpur" required />
+        </div>
+        <div>
+          <label for="dropState">Drop State</label>
+          <input type="text" id="dropState" placeholder="e.g. Jharkhand" required />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="date">Preferred Date</label>
+          <input type="date" id="date" required />
+        </div>
+        <div>
+          <label for="tonnage">Total Weight (in tons)</label>
+          <input type="number" id="tonnage" min="1" placeholder="e.g. 20" required />
+        </div>
+      </div>
+
+      <div class="row">
+        <div>
+          <label for="vehicleType">Vehicle Type</label>
+          <select id="vehicleType" required>
+            <option value="">Select Vehicle</option>
+            <option value="Mini Truck">Mini Truck</option>
+            <option value="Container">Container</option>
+            <option value="Trailer">Trailer</option>
+            <option value="Tanker">Tanker</option>
+            <option value="Flatbed">Flatbed</option>
+          </select>
+        </div>
+        <div>
+          <label for="priority">Priority</label>
+          <select id="priority" required>
+            <option value="standard">Standard</option>
+            <option value="urgent">Urgent</option>
+          </select>
+        </div>
+      </div>
+
+      <label for="price">Price per Ton (₹)</label>
+      <input type="number" id="price" min="100" step="10" placeholder="e.g. 500" required />
+
+      <label for="totalCost">Estimated Total Cost (₹)</label>
+      <input type="text" id="totalCost" placeholder="Auto-calculated" readonly />
+
+      <label for="contact">Contact Number (+91 format)</label>
+      <input type="tel" id="contact" placeholder="+911234567890" pattern="\+91[0-9]{10}" required />
+
+      <label for="documents">Upload Documents (Optional)</label>
+      <input type="file" id="documents" />
+      <div id="filePreview">No file selected</div>
+
+      <button type="submit">Submit Request</button>
+    </form>
   </div>
+</main>
 
-  <main class="flex-grow flex flex-col items-center justify-start px-4 sm:px-6 py-10 relative z-10 space-y-10" style="padding-top: 80px;">
-    <h2 class="text-2xl sm:text-3xl md:text-4xl font-extrabold text-center mb-6 glow-hover">Welcome, Logistics Owner!</h2>
-    
-    <div class="card-container">
-      <div class="home-card">
-        <h3>Post a New Shipment</h3>
-        <p>Enter shipment details and select vehicles to assign. Placeholder text appears for guidance.</p>
-        <button onclick="window.location.href='post-shipment.html'">Post Shipment</button>
-      </div>
-      <div class="home-card">
-        <h3>View Active Shipments</h3>
-        <p>Track all ongoing shipments. Each card shows shipment details and status.</p>
-        <button onclick="window.location.href='active-shipments.html'">View Shipments</button>
-      </div>
-      <div class="home-card">
-        <h3>Vehicle Management</h3>
-        <p>Manage vehicles with placeholder hints for adding or editing vehicle info.</p>
-        <button onclick="window.location.href='vehicle-management.html'">Manage Vehicles</button>
-      </div>
-      <div class="home-card">
-        <h3>Reports & Analytics</h3>
-        <p>Check analytics dashboards with interactive charts and placeholder filters.</p>
-        <button onclick="window.location.href='analytics.html'">View Reports</button>
-      </div>
-    </div>
-  </main>
+<div class="footer">
+  © 2025 Kennedy Transportation Logistics | All Rights Reserved
+</div>
 
-  <script>
-    const canvas = document.getElementById("particleCanvas");
-    const ctx = canvas.getContext("2d");
-    let particlesArray;
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    window.addEventListener("resize", () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      init();
+<script>
+// Floating stars handled above
+
+const tonnageInput = document.getElementById('tonnage');
+const priceInput = document.getElementById('price');
+const totalCostInput = document.getElementById('totalCost');
+const documentsInput = document.getElementById('documents');
+const filePreview = document.getElementById('filePreview');
+
+function calculateTotalCost() {
+  const tonnage = parseFloat(tonnageInput.value) || 0;
+  const price = parseFloat(priceInput.value) || 0;
+  totalCostInput.value = tonnage && price ? (tonnage * price).toFixed(2) : '';
+}
+
+tonnageInput.addEventListener('input', calculateTotalCost);
+priceInput.addEventListener('input', calculateTotalCost);
+
+documentsInput.addEventListener('change', () => {
+  if (documentsInput.files.length > 0) {
+    filePreview.textContent = documentsInput.files[0].name;
+  } else {
+    filePreview.textContent = "No file selected";
+  }
+});
+
+document.getElementById('logisticsForm').addEventListener('submit', async function (e) {
+  e.preventDefault();
+  const payload = {
+    logisticsName: document.getElementById('logisticsName').value,
+    pickup: document.getElementById('pickupCity').value + ", " + document.getElementById('pickupState').value,
+    dropLocation: document.getElementById('dropCity').value + ", " + document.getElementById('dropState').value,
+    date: document.getElementById('date').value,
+    tonnage: parseInt(document.getElementById('tonnage').value),
+    vehicleType: document.getElementById('vehicleType').value,
+    price: parseFloat(document.getElementById('price').value),
+    priority: document.getElementById('priority').value,
+    contact: document.getElementById('contact').value,
+    ownerEmail: prompt("Enter your email used at signup (for demo):")
+  };
+  try {
+    const response = await fetch('http://localhost:8080/api/logistics/add', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
     });
-    class Particle {
-      constructor(x, y, size, dx, dy) { this.x=x; this.y=y; this.size=size; this.dx=dx; this.dy=dy; }
-      draw(){ ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI*2); ctx.fillStyle="rgba(255,255,255,0.7)"; ctx.fill(); }
-      update(){ this.x+=this.dx; this.y+=this.dy; if(this.x>canvas.width||this.x<0)this.dx*=-1; if(this.y>canvas.height||this.y<0)this.dy*=-1; this.draw(); }
+    if (response.ok) {
+      alert('Logistics request added successfully!');
+      document.getElementById('logisticsForm').reset();
+      totalCostInput.value = '';
+      filePreview.textContent = "No file selected";
+    } else {
+      const error = await response.text();
+      alert('Failed to add logistics: ' + (error || 'Unknown error'));
     }
-    function init(){ particlesArray=[]; let n=window.innerWidth<768?50:80; for(let i=0;i<n;i++){ let s=Math.random()*3+1; let x=Math.random()*canvas.width; let y=Math.random()*canvas.height; let dx=(Math.random()-0.5)*1; let dy=(Math.random()-0.5)*1; particlesArray.push(new Particle(x,y,s,dx,dy)); } }
-    function animate(){ requestAnimationFrame(animate); ctx.clearRect(0,0,canvas.width,canvas.height); particlesArray.forEach(p=>p.update()); }
-    init(); animate();
-
-    const helpBtn = document.getElementById("helpBtn");
-    const helpModal = document.getElementById("helpModal");
-    const closeModal = document.getElementById("closeModal");
-    helpBtn.onclick = () => { helpModal.style.display = "flex"; };
-    closeModal.onclick = () => { helpModal.style.display = "none"; };
-    window.onclick = (e) => { if(e.target===helpModal) helpModal.style.display="none"; };
-  </script>
+  } catch (err) {
+    alert('Error submitting form. Please try again.');
+    console.error(err);
+  }
+});
+</script>
 </body>
 </html>
-
 
