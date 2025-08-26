@@ -1,332 +1,580 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Kennedy - Add Logistics</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<style>
-  body {
-    font-family: 'Inter', sans-serif;
-    background: linear-gradient(135deg, #1e3a8a, #0f172a, #881337);
-    background-size: 400% 400%;
-    animation: floatBG 20s ease infinite;
-    overflow-x: hidden;
-    color: #e2e8f0;
-    position: relative;
-  }
-  @keyframes floatBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  /* Header Interactive BG */
-  header {
-    background: linear-gradient(135deg, #facc15, #38bdf8);
-    background-size: 200% 200%;
-    animation: headerBG 5s ease infinite;
-  }
-  @keyframes headerBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  .glow-hover:hover {
-    text-shadow: 0 0 10px #facc15, 0 0 20px #38bdf8;
-    transition: text-shadow 0.3s ease, transform 0.3s ease;
-    transform: scale(1.05);
-  }
-
-  .icon-btn {
-    width: 45px; height: 45px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, #facc15, #38bdf8);
-    display: flex; align-items: center; justify-content: center;
-    font-weight: bold;
-    color: black;
-    cursor: pointer;
-    border: 2px solid #ffffff55;
-    transition: transform 0.3s, box-shadow 0.3s, border 0.3s;
-  }
-  .icon-btn:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 25px #facc15, 0 0 35px #38bdf8;
-    border: 2px solid #facc15;
-  }
-
-  h2 { text-align: center; margin-bottom: 1rem; font-size: 1.8rem; color: #fbbf24; }
-
-  .form-section {
-    background: rgba(30, 41, 59, 0.85);
-    border: 1px solid rgba(255,255,255,0.15);
-    padding: 2rem;
-    border-radius: 16px;
-    backdrop-filter: blur(12px);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-    width: 100%;
-    max-width: 700px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .form-section:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(0,0,0,0.6); }
-
-  label { margin-top: 1rem; display: block; font-weight: 500; }
-  input, select {
-    width: 100%; margin-top: 0.25rem; padding: 0.75rem;
-    border-radius: 8px; border: none; background-color: #334155;
-    color: #fff; font-size: 1rem;
-  }
-  input::placeholder { color: #94a3b8; }
-
-  input[type="file"] { cursor: pointer; background-color: #475569; }
-
-  button {
-    margin-top: 1.5rem;
-    padding: 0.75rem 1.5rem;
-    background: #f59e0b;
-    color: #fff;
-    font-weight: bold;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: background 0.3s ease, transform 0.2s ease;
-  }
-  button:hover { background: #d97706; transform: scale(1.03); }
-
-  .footer { text-align: center; padding: 1rem; font-size: 0.85rem; background-color: rgba(15, 23, 42, 0.9); color: #94a3b8; }
-
-  .row { display: flex; gap: 1rem; flex-wrap: wrap; }
-  .row > div { flex: 1; min-width: 150px; }
-
-  #filePreview { margin-top: 0.5rem; font-size: 0.9rem; color: #facc15; }
-
-  @media (max-width: 600px) {
-    .form-section { padding: 1rem; }
-    h2 { font-size: 1.4rem; }
-    .row { flex-direction: column; }
-  }
-
-  /* Particle Canvas */
-  #particleCanvas {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 0;
-  }
-</style>
-</head>
-<body class="relative">
-
-<canvas id="particleCanvas"></canvas>
-
-<header class="flex justify-between items-center px-4 sm:px-6 py-4 fixed top-0 left-0 w-full z-50 shadow-md rounded-b-lg">
-  <div class="flex items-center gap-2 flex-shrink-0">
-    <img src="https://img.icons8.com/ios-filled/50/ffffff/truck.png" alt="Truck" class="h-8 w-8 glow-hover cursor-pointer"/>
-    <h1 class="text-lg sm:text-xl md:text-2xl font-bold glow-hover cursor-pointer">Kennedy</h1>
-  </div>
-  <nav class="flex items-center gap-3 sm:gap-4">
-    <a href="index.html" class="icon-btn glow-hover">
-      <img src="https://img.icons8.com/ios-filled/24/000000/home.png" alt="Home" />
-    </a>
-    <a href="profile.html" class="icon-btn glow-hover">
-      <img src="https://img.icons8.com/ios-filled/24/000000/user-male-circle.png" alt="Profile" />
-    </a>
-  </nav>
-</header>
-
-<main class="flex justify-center items-start px-4 py-10 relative z-10" style="padding-top: 100px;">
-  <div class="form-section">
-    <h2>Add Logistics Details</h2>
-    <form id="logisticsForm">
-      <label for="logisticsName">Logistics Details</label>
-      <input type="text" id="logisticsName" placeholder="e.g. Cement Load from Pune" required />
-
-      <div class="row">
-        <div>
-          <label for="pickupCity">Pickup City</label>
-          <input type="text" id="pickupCity" placeholder="e.g. Pune" required />
-        </div>
-        <div>
-          <label for="pickupState">Pickup State</label>
-          <input type="text" id="pickupState" placeholder="e.g. Maharashtra" required />
-        </div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label for="dropCity">Drop City</label>
-          <input type="text" id="dropCity" placeholder="e.g. Jamshedpur" required />
-        </div>
-        <div>
-          <label for="dropState">Drop State</label>
-          <input type="text" id="dropState" placeholder="e.g. Jharkhand" required />
-        </div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label for="date">Preferred Date</label>
-          <input type="date" id="date" required />
-        </div>
-        <div>
-          <label for="tonnage">Total Weight (in tons)</label>
-          <input type="number" id="tonnage" min="1" placeholder="e.g. 20" required />
-        </div>
-      </div>
-
-      <div class="row">
-        <div>
-          <label for="vehicleType">Vehicle Type</label>
-          <select id="vehicleType" required>
-            <option value="">Select Vehicle</option>
-            <option value="Mini Truck">Mini Truck</option>
-            <option value="Container">Container</option>
-            <option value="Trailer">Trailer</option>
-            <option value="Tanker">Tanker</option>
-            <option value="Flatbed">Flatbed</option>
-          </select>
-        </div>
-        <div>
-          <label for="priority">Priority</label>
-          <select id="priority" required>
-            <option value="standard">Standard</option>
-            <option value="urgent">Urgent</option>
-          </select>
-        </div>
-      </div>
-
-      <label for="price">Price per Ton (₹)</label>
-      <input type="number" id="price" min="100" step="10" placeholder="e.g. 500" required />
-
-      <label for="totalCost">Estimated Total Cost (₹)</label>
-      <input type="text" id="totalCost" placeholder="Auto-calculated" readonly />
-
-      <label for="contact">Contact Number (+91 format)</label>
-      <input type="tel" id="contact" placeholder="+911234567890" pattern="\+91[0-9]{10}" required />
-
-      <label for="documents">Upload Documents (Optional)</label>
-      <input type="file" id="documents" />
-      <div id="filePreview">No file selected</div>
-
-      <button type="submit">Submit Request</button>
-    </form>
-  </div>
-</main>
-
-<div class="footer">
-  © 2025 Kennedy Transportation Logistics | All Rights Reserved
-</div>
-
-<script>
-/* Particle Background */
-const canvas = document.getElementById("particleCanvas");
-const ctx = canvas.getContext("2d");
-let particlesArray;
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-window.addEventListener("resize", () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-  init();
-});
-
-class Particle {
-  constructor(x, y, size, dx, dy) {
-    this.x=x; this.y=y; this.size=size; this.dx=dx; this.dy=dy;
-  }
-  draw(){
-    ctx.beginPath();
-    ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
-    ctx.fillStyle="rgba(255,255,255,0.7)";
-    ctx.fill();
-  }
-  update(){
-    this.x+=this.dx; this.y+=this.dy;
-    if(this.x>canvas.width||this.x<0) this.dx*=-1;
-    if(this.y>canvas.height||this.y<0) this.dy*=-1;
-    this.draw();
-  }
-}
-function init(){
-  particlesArray=[];
-  let n=window.innerWidth<768?50:80;
-  for(let i=0;i<n;i++){
-    let s=Math.random()*3+1;
-    let x=Math.random()*canvas.width;
-    let y=Math.random()*canvas.height;
-    let dx=(Math.random()-0.5)*1;
-    let dy=(Math.random()-0.5)*1;
-    particlesArray.push(new Particle(x,y,s,dx,dy));
-  }
-}
-function animate(){
-  requestAnimationFrame(animate);
-  ctx.clearRect(0,0,canvas.width,canvas.height);
-  particlesArray.forEach(p=>p.update());
-}
-init(); animate();
-
-/* Form Logic */
-const tonnageInput = document.getElementById('tonnage');
-const priceInput = document.getElementById('price');
-const totalCostInput = document.getElementById('totalCost');
-const documentsInput = document.getElementById('documents');
-const filePreview = document.getElementById('filePreview');
-
-function calculateTotalCost() {
-  const tonnage = parseFloat(tonnageInput.value) || 0;
-  const price = parseFloat(priceInput.value) || 0;
-  totalCostInput.value = tonnage && price ? (tonnage * price).toFixed(2) : '';
-}
-
-tonnageInput.addEventListener('input', calculateTotalCost);
-priceInput.addEventListener('input', calculateTotalCost);
-
-documentsInput.addEventListener('change', () => {
-  if (documentsInput.files.length > 0) {
-    filePreview.textContent = documentsInput.files[0].name;
-  } else {
-    filePreview.textContent = "No file selected";
-  }
-});
-
-document.getElementById('logisticsForm').addEventListener('submit', async function (e) {
-  e.preventDefault();
-  const payload = {
-    logisticsName: document.getElementById('logisticsName').value,
-    pickup: document.getElementById('pickupCity').value + ", " + document.getElementById('pickupState').value,
-    dropLocation: document.getElementById('dropCity').value + ", " + document.getElementById('dropState').value,
-    date: document.getElementById('date').value,
-    tonnage: parseInt(document.getElementById('tonnage').value),
-    vehicleType: document.getElementById('vehicleType').value,
-    price: parseFloat(document.getElementById('price').value),
-    priority: document.getElementById('priority').value,
-    contact: document.getElementById('contact').value,
-    ownerEmail: prompt("Enter your email used at signup (for demo):")
-  };
-  try {
-    const response = await fetch('http://localhost:8080/api/logistics/add', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    });
-    if (response.ok) {
-      alert('Logistics request added successfully!');
-      document.getElementById('logisticsForm').reset();
-      totalCostInput.value = '';
-      filePreview.textContent = "No file selected";
-    } else {
-      const error = await response.text();
-      alert('Failed to add logistics: ' + (error || 'Unknown error'));
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kennedy – My Logistics</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(135deg, #1e3a8a, #0f172a, #881337);
+      background-size: 400% 400%;
+      animation: floatBG 20s ease infinite;
+      overflow-x: hidden;
+      color: #e2e8f0;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
-  } catch (err) {
-    alert('Error submitting form. Please try again.');
-    console.error(err);
-  }
-});
-</script>
+    @keyframes floatBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    header {
+      background: linear-gradient(135deg, #facc15, #38bdf8);
+      background-size: 200% 200%;
+      animation: headerBG 5s ease infinite;
+    }
+    @keyframes headerBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .glow-hover:hover {
+      text-shadow: 0 0 10px #facc15, 0 0 20px #38bdf8;
+      transition: text-shadow 0.3s ease, transform 0.3s ease;
+      transform: scale(1.03);
+    }
+    .icon-btn {
+      width: 44px; height: 44px;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, #facc15, #38bdf8);
+      display: flex; align-items: center; justify-content: center;
+      border: 2px solid #ffffff55;
+      transition: transform .25s, box-shadow .25s, border .25s;
+    }
+    .icon-btn:hover { transform: scale(1.07); box-shadow: 0 0 18px #facc15, 0 0 28px #38bdf8; border-color: #facc15; }
+    .card {
+      background: rgba(31,41,55,0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 1rem;
+      transition: transform .25s, box-shadow .25s;
+    }
+    .card:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(0,0,0,.35); }
+    .badge { border: 1px solid rgba(255,255,255,.18); }
+    .skeleton {
+      background: linear-gradient(90deg, rgba(255,255,255,.08), rgba(255,255,255,.16), rgba(255,255,255,.08));
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+    }
+    @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+    .modal-bg { background: rgba(0,0,0,.55); }
+    /* small adjustments for mobile */
+    @media (max-width: 640px) {
+      header { padding-left: 1rem; padding-right: 1rem; }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Header -->
+  <header class="flex justify-between items-center px-4 sm:px-6 py-4 fixed top-0 left-0 w-full z-50 shadow-md rounded-b-lg">
+    <div class="flex items-center gap-2">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/truck.png" alt="Truck" class="h-8 w-8 glow-hover cursor-pointer"/>
+      <h1 class="text-xl sm:text-2xl font-extrabold glow-hover cursor-pointer" onclick="location.href='index.html'">Kennedy</h1>
+    </div>
+    <nav class="flex items-center gap-2 sm:gap-3">
+      <button title="Post Load" class="icon-btn" onclick="location.href='post-shipment.html'">
+        <img src="https://img.icons8.com/ios-filled/22/000000/plus.png" alt="Add"/>
+      </button>
+      <button title="Home" class="icon-btn" onclick="location.href='index.html'">
+        <img src="https://img.icons8.com/ios-filled/22/000000/home.png" alt="Home"/>
+      </button>
+      <button title="Profile" class="icon-btn" onclick="location.href='profile.html'">
+        <img src="https://img.icons8.com/ios-filled/22/000000/user-male-circle.png" alt="Profile"/>
+      </button>
+    </nav>
+  </header>
+
+  <!-- Content -->
+  <main class="flex-1 pt-24 pb-10 px-4 sm:px-6 max-w-6xl w-full mx-auto">
+    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3 sm:gap-4 mb-4">
+      <div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold">My Logistics</h2>
+        <p class="text-slate-300 text-sm sm:text-base">History of loads you posted. Manage status or delete when booking limit is reached.</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="refreshBtn" class="px-3 py-2 rounded-lg bg-sky-500 hover:bg-sky-600 text-white text-sm font-semibold">Refresh</button>
+        <button id="exportBtn" class="px-3 py-2 rounded-lg bg-amber-500 hover:bg-amber-600 text-white text-sm font-semibold">Export CSV</button>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <section class="card p-3 sm:p-4 mb-5">
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2">
+        <input id="searchInput" class="col-span-2 md:col-span-2 px-3 py-2 rounded-lg bg-slate-700/70 focus:outline-none focus:ring-2 focus:ring-sky-400" placeholder="Search by city, name, vehicle…" />
+        <select id="statusFilter" class="px-3 py-2 rounded-lg bg-slate-700/70 focus:outline-none focus:ring-2 focus:ring-sky-400">
+          <option value="all">Status: All</option>
+          <option value="true">Open (flag=true)</option>
+          <option value="false">Closed (flag=false)</option>
+        </select>
+        <select id="demandFilter" class="px-3 py-2 rounded-lg bg-slate-700/70 focus:outline-none focus:ring-2 focus:ring-sky-400">
+          <option value="all">Demanded: All</option>
+          <option value="yes">Demanded</option>
+          <option value="no">Not Demanded</option>
+        </select>
+        <input id="fromDate" type="date" class="px-3 py-2 rounded-lg bg-slate-700/70 focus:outline-none focus:ring-2 focus:ring-sky-400"/>
+        <input id="toDate" type="date" class="px-3 py-2 rounded-lg bg-slate-700/70 focus:outline-none focus:ring-2 focus:ring-sky-400"/>
+      </div>
+    </section>
+
+    <!-- Counters -->
+    <section class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+      <div class="card p-4">
+        <div class="text-sm text-slate-300">Total</div>
+        <div id="statTotal" class="text-2xl font-extrabold">0</div>
+      </div>
+      <div class="card p-4">
+        <div class="text-sm text-slate-300">Open (flag=true)</div>
+        <div id="statOpen" class="text-2xl font-extrabold">0</div>
+      </div>
+      <div class="card p-4">
+        <div class="text-sm text-slate-300">Demanded</div>
+        <div id="statDemanded" class="text-2xl font-extrabold">0</div>
+      </div>
+      <div class="card p-4">
+        <div class="text-sm text-slate-300">Closed</div>
+        <div id="statClosed" class="text-2xl font-extrabold">0</div>
+      </div>
+    </section>
+
+    <!-- Results toolbar -->
+    <section class="flex items-center justify-between gap-2 mb-3">
+      <div class="text-slate-300 text-sm"><span id="countShown">0</span> shown</div>
+      <select id="sortSelect" class="px-3 py-2 rounded-lg bg-slate-700/70 focus:outline-none focus:ring-2 focus:ring-amber-400 text-sm">
+        <option value="date_desc">Sort: Date ⬇</option>
+        <option value="date_asc">Sort: Date ⬆</option>
+        <option value="price_desc">Sort: Price ⬇</option>
+        <option value="price_asc">Sort: Price ⬆</option>
+      </select>
+    </section>
+
+    <!-- List -->
+    <section id="listContainer" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <!-- Skeletons initially -->
+      <div class="card p-4 skeleton h-40 rounded-xl"></div>
+      <div class="card p-4 skeleton h-40 rounded-xl"></div>
+      <div class="card p-4 skeleton h-40 rounded-xl"></div>
+    </section>
+
+    <!-- Pagination -->
+    <div class="flex justify-center mt-6">
+      <button id="prevPage" class="px-3 py-2 rounded-l-lg bg-slate-700/70 hover:bg-slate-700 disabled:opacity-40">Prev</button>
+      <span id="pageInfo" class="px-4 py-2 bg-slate-800/70">1 / 1</span>
+      <button id="nextPage" class="px-3 py-2 rounded-r-lg bg-slate-700/70 hover:bg-slate-700 disabled:opacity-40">Next</button>
+    </div>
+  </main>
+
+  <!-- Confirm Modal -->
+  <div id="confirmModal" class="hidden fixed inset-0 z-[60] modal-bg flex items-center justify-center p-4">
+    <div class="card w-full max-w-md p-5">
+      <h3 id="confirmTitle" class="text-xl font-bold mb-2">Confirm</h3>
+      <p id="confirmMessage" class="text-slate-300 mb-4">Are you sure?</p>
+      <div class="flex justify-end gap-2">
+        <button id="confirmCancel" class="px-3 py-2 rounded-lg bg-slate-600 hover:bg-slate-500">Cancel</button>
+        <button id="confirmOk" class="px-3 py-2 rounded-lg bg-red-600 hover:bg-red-700">Yes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toasts -->
+  <div id="toast" class="fixed bottom-4 left-1/2 -translate-x-1/2 hidden px-4 py-2 rounded-lg bg-black/70 text-white text-sm z-[70]"></div>
+
+  <script>
+    // ======== CONFIG ========
+    const API_BASE = 'http://localhost:8080/api/logistics';
+    // Define your endpoints (adjust if your backend differs)
+    const ENDPOINTS = {
+      MY_LIST: (email) => `${API_BASE}/owner?email=${encodeURIComponent(email)}`,
+      CLOSE_STATUS: (id) => `${API_BASE}/${id}/status`,           // PUT { status:false }
+      DELETE: (id) => `${API_BASE}/${id}`                         // DELETE
+    };
+
+    // ======== AUTH CONTEXT ========
+    // Expect owner email to be set at login. Fallback: prompt once.
+    let ownerEmail = localStorage.getItem('ownerEmail');
+    if (!ownerEmail) {
+      ownerEmail = prompt('Enter your owner email (temp for demo):') || '';
+      localStorage.setItem('ownerEmail', ownerEmail);
+    }
+
+    // ======== STATE ========
+    let allItems = [];      // raw from backend
+    let viewItems = [];     // filtered/sorted
+    let currentPage = 1;
+    const pageSize = 9;
+
+    // ======== UI ELEMENTS ========
+    const listContainer = document.getElementById('listContainer');
+    const statTotal = document.getElementById('statTotal');
+    const statOpen = document.getElementById('statOpen');
+    const statClosed = document.getElementById('statClosed');
+    const statDemanded = document.getElementById('statDemanded');
+    const countShown = document.getElementById('countShown');
+    const pageInfo = document.getElementById('pageInfo');
+    const prevPage = document.getElementById('prevPage');
+    const nextPage = document.getElementById('nextPage');
+
+    const searchInput = document.getElementById('searchInput');
+    const statusFilter = document.getElementById('statusFilter');
+    const demandFilter = document.getElementById('demandFilter');
+    const fromDate = document.getElementById('fromDate');
+    const toDate = document.getElementById('toDate');
+    const sortSelect = document.getElementById('sortSelect');
+
+    const refreshBtn = document.getElementById('refreshBtn');
+    const exportBtn = document.getElementById('exportBtn');
+
+    const confirmModal = document.getElementById('confirmModal');
+    const confirmTitle = document.getElementById('confirmTitle');
+    const confirmMessage = document.getElementById('confirmMessage');
+    const confirmCancel = document.getElementById('confirmCancel');
+    const confirmOk = document.getElementById('confirmOk');
+
+    const toast = document.getElementById('toast');
+
+    // ======== HELPERS ========
+    const showToast = (msg, ms=1800) => {
+      toast.textContent = msg;
+      toast.classList.remove('hidden');
+      setTimeout(()=> toast.classList.add('hidden'), ms);
+    };
+
+    const money = (n) => isFinite(n) ? '₹ ' + Number(n).toLocaleString('en-IN') : '—';
+
+    const parseDate = (d) => d ? new Date(d) : null;
+
+    const inRange = (date, from, to) => {
+      const t = +date;
+      if (from && t < +from) return false;
+      if (to && t > (+to + 24*60*60*1000 - 1)) return false; // inclusive
+      return true;
+    };
+
+    const demandedText = (item) => {
+      // Support either "demanded" boolean or "demandCount" number from backend
+      const count = typeof item.demandCount === 'number' ? item.demandCount : (item.demanded ? 1 : 0);
+      return count > 0 ? `Yes (${count})` : 'No';
+    };
+
+    const statusPill = (flag) => {
+      return flag
+        ? '<span class="badge px-2 py-1 rounded-full text-xs bg-emerald-600/30 text-emerald-200">Open</span>'
+        : '<span class="badge px-2 py-1 rounded-full text-xs bg-rose-600/30 text-rose-200">Closed</span>';
+    };
+
+    const demandPill = (item) => {
+      const has = (item.demandCount && item.demandCount>0) || item.demanded === true;
+      return has
+        ? '<span class="badge px-2 py-1 rounded-full text-xs bg-amber-600/30 text-amber-200">Demanded</span>'
+        : '<span class="badge px-2 py-1 rounded-full text-xs bg-slate-600/30 text-slate-200">Not Demanded</span>';
+    };
+
+    // ======== FETCH ========
+    async function fetchMyLogistics() {
+      listContainer.innerHTML = `
+        <div class="card p-4 skeleton h-40 rounded-xl"></div>
+        <div class="card p-4 skeleton h-40 rounded-xl"></div>
+        <div class="card p-4 skeleton h-40 rounded-xl"></div>
+      `;
+      try {
+        const res = await fetch(ENDPOINTS.MY_LIST(ownerEmail), { headers: { 'Accept': 'application/json' }});
+        if (!res.ok) throw new Error(await res.text() || 'Failed to load');
+        const data = await res.json();
+        // Normalize fields a bit for safety
+        allItems = (Array.isArray(data) ? data : []).map(x => ({
+          id: x.id ?? x._id ?? x.logisticsId,
+          logisticsName: x.logisticsName ?? x.name ?? 'Logistics',
+          pickupCity: x.pickupCity ?? (x.pickup ? x.pickup.split(',')[0] : '') ?? '',
+          pickupState: x.pickupState ?? (x.pickup ? (x.pickup.split(',')[1] || '').trim() : '') ?? '',
+          dropCity: x.dropCity ?? (x.dropLocation ? x.dropLocation.split(',')[0] : '') ?? '',
+          dropState: x.dropState ?? (x.dropLocation ? (x.dropLocation.split(',')[1] || '').trim() : '') ?? '',
+          date: x.date,
+          createdAt: x.createdAt ?? x.created_at ?? x.date, // fallback
+          tonnage: x.tonnage ?? x.weight,
+          vehicleType: x.vehicleType,
+          price: x.price,
+          priority: x.priority,
+          status: (typeof x.status === 'boolean') ? x.status : (x.flag ?? true), // flag=true means open
+          demanded: x.demanded,
+          demandCount: x.demandCount
+        }));
+        currentPage = 1;
+        applyFiltersAndRender();
+      } catch (err) {
+        console.error(err);
+        listContainer.innerHTML = `
+          <div class="card p-6 sm:p-8 text-center col-span-full">
+            <div class="text-red-300 font-semibold mb-2">Failed to load logistics.</div>
+            <div class="text-slate-300 mb-4">${String(err.message || err)}</div>
+            <button class="px-3 py-2 rounded-lg bg-sky-500 hover:bg-sky-600" onclick="fetchMyLogistics()">Retry</button>
+          </div>`;
+      }
+    }
+
+    // ======== FILTER + SORT + PAGINATE ========
+    function applyFiltersAndRender() {
+      const q = (searchInput.value || '').trim().toLowerCase();
+      const statusVal = statusFilter.value; // all | true | false
+      const demandVal = demandFilter.value; // all | yes | no
+      const fd = fromDate.value ? new Date(fromDate.value) : null;
+      const td = toDate.value ? new Date(toDate.value) : null;
+
+      viewItems = allItems.filter(item => {
+        // status filter
+        if (statusVal !== 'all') {
+          const want = statusVal === 'true';
+          if (item.status !== want) return false;
+        }
+        // demand filter
+        if (demandVal !== 'all') {
+          const hasDemand = (item.demandCount && item.demandCount>0) || item.demanded === true;
+          if (demandVal === 'yes' && !hasDemand) return false;
+          if (demandVal === 'no' && hasDemand) return false;
+        }
+        // date range (by preferred date if present, else createdAt)
+        const d = parseDate(item.date) || parseDate(item.createdAt);
+        if (fd || td) {
+          if (!d || !inRange(d, fd, td)) return false;
+        }
+        // search
+        if (q) {
+          const bag = [
+            item.logisticsName, item.pickupCity, item.pickupState,
+            item.dropCity, item.dropState, item.vehicleType, item.priority
+          ].join(' ').toLowerCase();
+          if (!bag.includes(q)) return false;
+        }
+        return true;
+      });
+
+      // sort
+      const mode = sortSelect.value;
+      viewItems.sort((a,b) => {
+        const da = +parseDate(a.date || a.createdAt) || 0;
+        const db = +parseDate(b.date || b.createdAt) || 0;
+        if (mode === 'date_desc') return db - da;
+        if (mode === 'date_asc') return da - db;
+        if (mode === 'price_desc') return (b.price||0) - (a.price||0);
+        if (mode === 'price_asc') return (a.price||0) - (b.price||0);
+        return 0;
+      });
+
+      // counters
+      statTotal.textContent = allItems.length;
+      statOpen.textContent = allItems.filter(x => x.status === true).length;
+      statClosed.textContent = allItems.filter(x => x.status === false).length;
+      statDemanded.textContent = allItems.filter(x => (x.demandCount && x.demandCount>0) || x.demanded === true).length;
+
+      renderPage();
+    }
+
+    function renderPage() {
+      const totalPages = Math.max(1, Math.ceil(viewItems.length / pageSize));
+      if (currentPage > totalPages) currentPage = totalPages;
+      const start = (currentPage-1)*pageSize;
+      const pageItems = viewItems.slice(start, start+pageSize);
+      countShown.textContent = pageItems.length;
+
+      pageInfo.textContent = `${currentPage} / ${totalPages}`;
+      prevPage.disabled = currentPage === 1;
+      nextPage.disabled = currentPage === totalPages;
+
+      if (pageItems.length === 0) {
+        listContainer.innerHTML = `
+          <div class="card p-6 sm:p-8 text-center col-span-full">
+            <div class="text-lg font-semibold">No results</div>
+            <div class="text-slate-300">Try changing filters or date range.</div>
+          </div>`;
+        return;
+      }
+
+      listContainer.innerHTML = pageItems.map(item => cardTemplate(item)).join('');
+    }
+
+    function cardTemplate(item) {
+      const dateStr = item.date ? new Date(item.date).toLocaleDateString() : '—';
+      const perTon = money(item.price);
+      const total = (isFinite(item.price) && isFinite(item.tonnage)) ? money(item.price * item.tonnage) : '—';
+
+      return `
+        <article class="card p-4 flex flex-col">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <h3 class="text-lg font-bold">${escapeHtml(item.logisticsName)}</h3>
+              <div class="text-sm text-slate-300">${escapeHtml(item.pickupCity)}, ${escapeHtml(item.pickupState)} ➜ ${escapeHtml(item.dropCity)}, ${escapeHtml(item.dropState)}</div>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              ${statusPill(item.status)}
+              ${demandPill(item)}
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-2 text-sm mt-3">
+            <div class="bg-slate-800/60 rounded-lg p-2">
+              <div class="text-slate-400">Date</div>
+              <div class="font-semibold">${dateStr}</div>
+            </div>
+            <div class="bg-slate-800/60 rounded-lg p-2">
+              <div class="text-slate-400">Vehicle</div>
+              <div class="font-semibold">${escapeHtml(item.vehicleType || '—')}</div>
+            </div>
+            <div class="bg-slate-800/60 rounded-lg p-2">
+              <div class="text-slate-400">Tonnage</div>
+              <div class="font-semibold">${item.tonnage ?? '—'} t</div>
+            </div>
+            <div class="bg-slate-800/60 rounded-lg p-2">
+              <div class="text-slate-400">Price / ton</div>
+              <div class="font-semibold">${perTon}</div>
+            </div>
+            <div class="bg-slate-800/60 rounded-lg p-2 col-span-2">
+              <div class="text-slate-400">Estimated Total</div>
+              <div class="font-semibold">${total}</div>
+            </div>
+          </div>
+
+          <div class="mt-4 flex flex-wrap gap-2">
+            ${item.status
+              ? `<button class="px-3 py-2 rounded-lg bg-amber-500 hover:bg-amber-600 text-sm font-semibold"
+                         onclick="confirmClose('${encodeURIComponent(item.id)}')">Close Booking</button>`
+              : `<button class="px-3 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-sm font-semibold"
+                         onclick="reopenInfo()">Closed</button>`
+            }
+            <button class="px-3 py-2 rounded-lg bg-rose-600 hover:bg-rose-700 text-sm font-semibold"
+                    onclick="confirmDelete('${encodeURIComponent(item.id)}')">Delete</button>
+            <button class="ml-auto px-3 py-2 rounded-lg bg-sky-600 hover:bg-sky-700 text-sm font-semibold"
+                    onclick="viewDetails('${encodeURIComponent(item.id)}')">Details</button>
+          </div>
+        </article>
+      `;
+    }
+
+    function escapeHtml(s) {
+      return String(s ?? '').replace(/[&<>"']/g, m => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      }[m]));
+    }
+
+    // ======== ACTIONS ========
+    function confirmClose(id) {
+      openConfirm('Close Booking', 'This will set status=false (not visible to users). Continue?', async () => {
+        try {
+          // optimistic UI
+          const idx = allItems.findIndex(x => String(x.id) === decodeURIComponent(id));
+          if (idx >= 0) { allItems[idx].status = false; }
+          applyFiltersAndRender();
+
+          const res = await fetch(ENDPOINTS.CLOSE_STATUS(decodeURIComponent(id)), {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ status: false })
+          });
+          if (!res.ok) throw new Error(await res.text() || 'Failed to update status');
+          showToast('Booking closed (status=false).');
+        } catch (e) {
+          showToast('Error closing booking.');
+          console.error(e);
+          // reload from backend to recover
+          fetchMyLogistics();
+        }
+      });
+    }
+
+    function reopenInfo() {
+      showToast('Closed items are hidden from users. To reopen, implement PUT {status:true} in backend.');
+    }
+
+    function confirmDelete(id) {
+      openConfirm('Delete Logistics', 'Delete this logistics permanently? (We also recommend keeping status=false in backend.)', async () => {
+        try {
+          // optimistic UI
+          const idDec = decodeURIComponent(id);
+          const keep = allItems.filter(x => String(x.id) !== idDec);
+          allItems = keep;
+          applyFiltersAndRender();
+
+          const res = await fetch(ENDPOINTS.DELETE(idDec), { method: 'DELETE' });
+          if (!res.ok) throw new Error(await res.text() || 'Failed to delete');
+          showToast('Deleted successfully.');
+        } catch (e) {
+          showToast('Error deleting item.');
+          console.error(e);
+          fetchMyLogistics();
+        }
+      });
+    }
+
+    function viewDetails(id) {
+      // Route to a details page (optional)
+      // Pass id via query param
+      window.location.href = `logistics-details.html?id=${encodeURIComponent(id)}`;
+    }
+
+    // ======== CONFIRM MODAL ========
+    let confirmHandler = null;
+    function openConfirm(title, msg, onOk) {
+      confirmTitle.textContent = title;
+      confirmMessage.textContent = msg;
+      confirmModal.classList.remove('hidden');
+      confirmHandler = onOk;
+    }
+    confirmCancel.onclick = () => { confirmModal.classList.add('hidden'); confirmHandler = null; };
+    confirmOk.onclick = async () => {
+      confirmModal.classList.add('hidden');
+      if (typeof confirmHandler === 'function') {
+        const h = confirmHandler; confirmHandler = null;
+        await h();
+      }
+    }
+    confirmModal.addEventListener('click', (e) => {
+      if (e.target === confirmModal) { confirmCancel.click(); }
+    });
+
+    // ======== EVENTS ========
+    [searchInput, statusFilter, demandFilter, fromDate, toDate, sortSelect].forEach(el => {
+      el.addEventListener('input', () => { currentPage = 1; applyFiltersAndRender(); });
+      el.addEventListener('change', () => { currentPage = 1; applyFiltersAndRender(); });
+    });
+    prevPage.onclick = () => { currentPage = Math.max(1, currentPage - 1); renderPage(); };
+    nextPage.onclick = () => {
+      const totalPages = Math.max(1, Math.ceil(viewItems.length / pageSize));
+      currentPage = Math.min(totalPages, currentPage + 1);
+      renderPage();
+    };
+
+    refreshBtn.onclick = fetchMyLogistics;
+
+    exportBtn.onclick = () => {
+      const rows = [
+        ['ID','Name','Pickup','Drop','Date','Tonnage','Vehicle','PricePerTon','Total','Priority','StatusFlag','DemandCount'],
+        ...viewItems.map(x => [
+          x.id,
+          x.logisticsName,
+          `${x.pickupCity}, ${x.pickupState}`,
+          `${x.dropCity}, ${x.dropState}`,
+          x.date || '',
+          x.tonnage ?? '',
+          x.vehicleType ?? '',
+          x.price ?? '',
+          (isFinite(x.price) && isFinite(x.tonnage)) ? (x.price * x.tonnage) : '',
+          x.priority ?? '',
+          x.status === true ? 'true' : 'false',
+          typeof x.demandCount === 'number' ? x.demandCount : (x.demanded ? 1 : 0)
+        ])
+      ];
+      const csv = rows.map(r => r.map(c => `"${String(c).replace(/"/g,'""')}"`).join(',')).join('\n');
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'my-logistics.csv';
+      document.body.appendChild(a); a.click(); document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    };
+
+    // ======== INIT ========
+    fetchMyLogistics();
+  </script>
 </body>
 </html>
 
