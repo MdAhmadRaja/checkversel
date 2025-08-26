@@ -3,175 +3,142 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Logistics Owner - Kennedy</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+<title>Kennedy - Add Logistics</title>
+<script src="https://cdn.tailwindcss.com"></script>
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #1e3a8a, #0f172a, #881337);
+    background-size: 400% 400%;
+    animation: floatBG 20s ease infinite;
+    overflow-x: hidden;
+    color: #e2e8f0;
+    position: relative;
+  }
+  @keyframes floatBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
 
-body {
-  font-family: 'Inter', sans-serif;
-  background: #0f172a;
-  overflow-x: hidden;
-  color: #e2e8f0;
-  position: relative;
-}
+  /* Header Interactive BG */
+  header {
+    background: linear-gradient(135deg, #facc15, #38bdf8);
+    background-size: 200% 200%;
+    animation: headerBG 5s ease infinite;
+  }
+  @keyframes headerBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
 
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: linear-gradient(90deg, #1e3a8a, #0f172a);
-  padding: 1rem 2rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-  position: sticky;
-  top: 0;
-  z-index: 999;
-  transition: background 0.3s ease;
-}
+  .glow-hover:hover {
+    text-shadow: 0 0 10px #facc15, 0 0 20px #38bdf8;
+    transition: text-shadow 0.3s ease, transform 0.3s ease;
+    transform: scale(1.05);
+  }
 
-header:hover { background: linear-gradient(90deg, #2563eb, #1e293b); }
+  .icon-btn {
+    width: 45px; height: 45px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #facc15, #38bdf8);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: bold;
+    color: black;
+    cursor: pointer;
+    border: 2px solid #ffffff55;
+    transition: transform 0.3s, box-shadow 0.3s, border 0.3s;
+  }
+  .icon-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 25px #facc15, 0 0 35px #38bdf8;
+    border: 2px solid #facc15;
+  }
 
-.logo { font-weight: 900; font-size: 1.5rem; color: #fff; display: flex; align-items: center; gap: 10px; }
-.logo img { height: 36px; }
+  h2 { text-align: center; margin-bottom: 1rem; font-size: 1.8rem; color: #fbbf24; }
 
-nav { display: flex; gap: 1.5rem; }
-nav a { color: #e0f2fe; font-size: 1.2rem; transition: transform 0.2s ease, color 0.3s ease; }
-nav a:hover { color: #facc15; transform: scale(1.2); }
+  .form-section {
+    background: rgba(30, 41, 59, 0.85);
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 2rem;
+    border-radius: 16px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+    width: 100%;
+    max-width: 700px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .form-section:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(0,0,0,0.6); }
 
-main { padding: 2rem; display: flex; justify-content: center; position: relative; z-index: 1; }
+  label { margin-top: 1rem; display: block; font-weight: 500; }
+  input, select {
+    width: 100%; margin-top: 0.25rem; padding: 0.75rem;
+    border-radius: 8px; border: none; background-color: #334155;
+    color: #fff; font-size: 1rem;
+  }
+  input::placeholder { color: #94a3b8; }
 
-h2 { text-align: center; margin-bottom: 1rem; font-size: 1.8rem; color: #fbbf24; }
+  input[type="file"] { cursor: pointer; background-color: #475569; }
 
-.form-section {
-  background: rgba(30, 41, 59, 0.8);
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 2rem;
-  border-radius: 16px;
-  backdrop-filter: blur(12px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-  width: 100%;
-  max-width: 700px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-.form-section:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(0,0,0,0.6); }
+  button {
+    margin-top: 1.5rem;
+    padding: 0.75rem 1.5rem;
+    background: #f59e0b;
+    color: #fff;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  button:hover { background: #d97706; transform: scale(1.03); }
 
-label { margin-top: 1rem; display: block; font-weight: 500; }
-input, select { width: 100%; margin-top: 0.25rem; padding: 0.75rem; border-radius: 8px; border: none; background-color: #334155; color: #fff; font-size: 1rem; }
-input::placeholder { color: #94a3b8; }
-select { background-color: #334155; }
+  .footer { text-align: center; padding: 1rem; font-size: 0.85rem; background-color: rgba(15, 23, 42, 0.9); color: #94a3b8; }
 
-input[type="file"] { cursor: pointer; background-color: #475569; }
+  .row { display: flex; gap: 1rem; flex-wrap: wrap; }
+  .row > div { flex: 1; min-width: 150px; }
 
-button {
-  margin-top: 1.5rem;
-  padding: 0.75rem 1.5rem;
-  background: #f59e0b;
-  color: #fff;
-  font-weight: bold;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-}
-button:hover { background: #d97706; transform: scale(1.03); }
+  #filePreview { margin-top: 0.5rem; font-size: 0.9rem; color: #facc15; }
 
-.footer { text-align: center; padding: 1rem; font-size: 0.85rem; background-color: rgba(15, 23, 42, 0.9); color: #94a3b8; }
+  @media (max-width: 600px) {
+    .form-section { padding: 1rem; }
+    h2 { font-size: 1.4rem; }
+    .row { flex-direction: column; }
+  }
 
-.row { display: flex; gap: 1rem; flex-wrap: wrap; }
-.row > div { flex: 1; min-width: 150px; }
-
-#error { color: #f87171; font-size: 0.85rem; display: none; margin-top: 2px; }
-
-#totalCost { background-color: #475569; font-weight: bold; }
-#filePreview { margin-top: 0.5rem; font-size: 0.9rem; color: #facc15; }
-
-@media (max-width: 600px) {
-  .form-section { padding: 1rem; }
-  h2 { font-size: 1.4rem; }
-  .row { flex-direction: column; }
-}
-
-/* Floating stars background */
-.star { position: absolute; width: 2px; height: 2px; background: #fff; border-radius: 50%; animation: floatStars linear infinite; opacity: 0.8; }
-@keyframes floatStars { 0% {transform: translateY(0);} 100% {transform: translateY(-1000px);} }
-
-
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: linear-gradient(90deg, #facc15, #a3e635); /* bright yellow → light green */
-  padding: 1rem 2rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-  position: sticky;
-  top: 0;
-  z-index: 999;
-  border-radius: 0 0 16px 16px;
-}
-
-/* Spherical icon buttons */
-.circle-icon {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  background: radial-gradient(circle at top left, #fcd34d, #84cc16); /* subtle 3D gradient */
-  color: #0f172a;
-  font-size: 1.2rem;
-  text-decoration: none;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-}
-
-.circle-icon:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.4);
-}
-
-/* Adjust nav spacing */
-nav {
-  display: flex;
-  gap: 1rem;
-}
+  /* Particle Canvas */
+  #particleCanvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+  }
 </style>
 </head>
-<body>
+<body class="relative">
 
-<!-- Floating stars -->
-<script>
-for(let i=0;i<100;i++){
-  let star=document.createElement('div');
-  star.classList.add('star');
-  star.style.left=Math.random()*100+'vw';
-  star.style.top=Math.random()*100+'vh';
-  star.style.width=1+Math.random()*2+'px';
-  star.style.height=1+Math.random()*2+'px';
-  star.style.animationDuration=(5+Math.random()*10)+'s';
-  document.body.appendChild(star);
-}
-</script>
+<canvas id="particleCanvas"></canvas>
 
-<header>
-  <div class="logo">
-    <img src="https://up.yimg.com/ib/th/id/OIP.5cT2v0u7C9O2zVFiDG0VHAHaEK?pid=Api&rs=1&c=1&qlt=95&w=211&h=118" alt="Truck Icon" class="circle-icon">
-    Kennedy
+<header class="flex justify-between items-center px-4 sm:px-6 py-4 fixed top-0 left-0 w-full z-50 shadow-md rounded-b-lg">
+  <div class="flex items-center gap-2 flex-shrink-0">
+    <img src="https://img.icons8.com/ios-filled/50/ffffff/truck.png" alt="Truck" class="h-8 w-8 glow-hover cursor-pointer"/>
+    <h1 class="text-lg sm:text-xl md:text-2xl font-bold glow-hover cursor-pointer">Kennedy</h1>
   </div>
-  <nav>
-     <a href="index.html" title="Home" class="circle-icon">
-    <img src="https://up.yimg.com/ib/th/id/OIP.jtogCBCArV5nEMpnW7kdbQHaHa?pid=Api&rs=1&c=1&qlt=95&w=123&h=123" alt="Home" style="width: 24px; height: 24px; border-radius: 50%;">
-  </a>
-  <a href="profile.html" title="Profile" class="circle-icon">&#128100;</a>
-
+  <nav class="flex items-center gap-3 sm:gap-4">
+    <a href="index.html" class="icon-btn glow-hover">
+      <img src="https://img.icons8.com/ios-filled/24/000000/home.png" alt="Home" />
+    </a>
+    <a href="profile.html" class="icon-btn glow-hover">
+      <img src="https://img.icons8.com/ios-filled/24/000000/user-male-circle.png" alt="Profile" />
+    </a>
   </nav>
 </header>
 
-<main>
+<main class="flex justify-center items-start px-4 py-10 relative z-10" style="padding-top: 100px;">
   <div class="form-section">
-    <h2>Add Logistics Request</h2>
+    <h2>Add Logistics Details</h2>
     <form id="logisticsForm">
-      <!-- Form content same as your previous code -->
       <label for="logisticsName">Logistics Details</label>
       <input type="text" id="logisticsName" placeholder="e.g. Cement Load from Pune" required />
 
@@ -252,8 +219,56 @@ for(let i=0;i<100;i++){
 </div>
 
 <script>
-// Floating stars handled above
+/* Particle Background */
+const canvas = document.getElementById("particleCanvas");
+const ctx = canvas.getContext("2d");
+let particlesArray;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  init();
+});
+
+class Particle {
+  constructor(x, y, size, dx, dy) {
+    this.x=x; this.y=y; this.size=size; this.dx=dx; this.dy=dy;
+  }
+  draw(){
+    ctx.beginPath();
+    ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+    ctx.fillStyle="rgba(255,255,255,0.7)";
+    ctx.fill();
+  }
+  update(){
+    this.x+=this.dx; this.y+=this.dy;
+    if(this.x>canvas.width||this.x<0) this.dx*=-1;
+    if(this.y>canvas.height||this.y<0) this.dy*=-1;
+    this.draw();
+  }
+}
+function init(){
+  particlesArray=[];
+  let n=window.innerWidth<768?50:80;
+  for(let i=0;i<n;i++){
+    let s=Math.random()*3+1;
+    let x=Math.random()*canvas.width;
+    let y=Math.random()*canvas.height;
+    let dx=(Math.random()-0.5)*1;
+    let dy=(Math.random()-0.5)*1;
+    particlesArray.push(new Particle(x,y,s,dx,dy));
+  }
+}
+function animate(){
+  requestAnimationFrame(animate);
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particlesArray.forEach(p=>p.update());
+}
+init(); animate();
+
+/* Form Logic */
 const tonnageInput = document.getElementById('tonnage');
 const priceInput = document.getElementById('price');
 const totalCostInput = document.getElementById('totalCost');
